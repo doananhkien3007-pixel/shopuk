@@ -81,18 +81,53 @@ export default function CheckoutPage() {
         </div>
       </div>
       
-      <main className="flex-1 py-10 px-4 max-w-6xl mx-auto w-full">
+      <main className="flex-1 py-4 md:py-10 px-0 md:px-4 max-w-6xl mx-auto w-full">
         {clientSecret ? (
-          <div className="bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-fade-in w-full">
+          <div className="bg-white md:border md:border-gray-100 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-fade-in w-full">
             <EmbeddedCheckoutProvider
               stripe={stripePromise}
-              options={{ clientSecret }}
+              options={{ 
+                clientSecret,
+                appearance: {
+                  theme: 'stripe',
+                  variables: {
+                    colorPrimary: '#000000', // Nút màu đen giống theme web
+                    colorBackground: '#ffffff',
+                    colorText: '#111827', // Gray-900
+                    colorDanger: '#ef4444',
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    borderRadius: '0px', // Vuông vức giống EQL
+                    spacingUnit: '4px',
+                  },
+                  rules: {
+                    '.Input': {
+                      borderColor: '#e5e7eb',
+                      boxShadow: 'none',
+                    },
+                    '.Input:focus': {
+                      borderColor: '#000000',
+                      boxShadow: '0 0 0 1px #000000',
+                    },
+                    '.Label': {
+                      fontWeight: '500',
+                      color: '#4b5563',
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    },
+                    '.Block': {
+                      borderColor: '#e5e7eb',
+                      borderRadius: '0px',
+                    }
+                  }
+                }
+              }}
             >
               <EmbeddedCheckout className="w-full" />
             </EmbeddedCheckoutProvider>
           </div>
         ) : (
-          <div className="flex flex-col justify-center items-center py-32 bg-white border border-gray-100">
+          <div className="flex flex-col justify-center items-center py-32 bg-white md:border md:border-gray-100">
             <div className="relative w-12 h-12">
               <div className="absolute inset-0 border-2 border-gray-200 rounded-full"></div>
               <div className="absolute inset-0 border-2 border-black rounded-full border-t-transparent animate-spin"></div>
