@@ -33,10 +33,16 @@ export default function CheckoutPage() {
       .then((data) => {
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
+        } else if (data.url) {
+          window.location.href = data.url;
         } else {
           console.error("No client secret returned:", data);
+          if (data.error) alert("Lỗi tạo thanh toán: " + data.error);
         }
       })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+      });
   }, [items, router]);
 
   return (
