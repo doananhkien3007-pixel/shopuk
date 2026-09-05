@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Header from '@/components/sites/eql/root/Header';
 import Footer from '@/components/sites/eql/root/Footer';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock');
 
 export default async function TrackOrderPage({
   searchParams,

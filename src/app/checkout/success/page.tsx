@@ -5,7 +5,7 @@ import Header from '@/components/sites/eql/root/Header';
 import Footer from '@/components/sites/eql/root/Footer';
 
 // Use the secret key to fetch the session securely on the server
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock');
 
 export default async function CheckoutSuccessPage({
   searchParams,
