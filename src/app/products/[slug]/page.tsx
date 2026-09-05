@@ -237,7 +237,10 @@ export default function ProductDetailPage({
       id: product.id,
       title: product.title,
       price: product.price,
-      priceNum: parseInt(product.price.replace(/\D/g, '')) || 500000,
+      priceNum: (() => {
+        const raw = parseInt(product.price.replace(/\D/g, '')) || 500000;
+        return raw < 10000 ? raw * 1000 : raw;
+      })(),
       image: images[0] || product.colors[0]?.images[0] || '/products/sculpt-black-bra-1.jpg',
       color: currentColor.name,
       size: selectedSize,

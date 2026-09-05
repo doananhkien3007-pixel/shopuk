@@ -49,7 +49,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = localStorage.getItem('eql_cart');
       if (saved) {
-        setItems(JSON.parse(saved));
+        const parsed: CartItem[] = JSON.parse(saved);
+        const fixed = parsed.map(item => ({
+          ...item,
+          priceNum: item.priceNum < 10000 ? item.priceNum * 1000 : item.priceNum
+        }));
+        setItems(fixed);
       }
     } catch (e) {
       console.error(e);

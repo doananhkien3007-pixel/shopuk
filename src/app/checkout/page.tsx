@@ -91,37 +91,16 @@ export default function CheckoutPage() {
                 appearance: {
                   theme: 'stripe',
                   variables: {
-                    colorPrimary: '#000000', // Nút màu đen giống theme web
+                    colorPrimary: '#000000',
                     colorBackground: '#ffffff',
-                    colorText: '#111827', // Gray-900
+                    colorText: '#111827',
                     colorDanger: '#ef4444',
                     fontFamily: 'system-ui, -apple-system, sans-serif',
-                    borderRadius: '0px', // Vuông vức giống EQL
+                    borderRadius: '0px',
                     spacingUnit: '4px',
-                  },
-                  rules: {
-                    '.Input': {
-                      borderColor: '#e5e7eb',
-                      boxShadow: 'none',
-                    },
-                    '.Input:focus': {
-                      borderColor: '#000000',
-                      boxShadow: '0 0 0 1px #000000',
-                    },
-                    '.Label': {
-                      fontWeight: '500',
-                      color: '#4b5563',
-                      fontSize: '0.75rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                    },
-                    '.Block': {
-                      borderColor: '#e5e7eb',
-                      borderRadius: '0px',
-                    }
                   }
                 }
-              }}
+              } as any}
             >
               <EmbeddedCheckout className="w-full" />
             </EmbeddedCheckoutProvider>
