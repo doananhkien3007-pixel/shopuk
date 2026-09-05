@@ -86,21 +86,7 @@ export default function CheckoutPage() {
           <div className="bg-white md:border md:border-gray-100 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-fade-in w-full">
             <EmbeddedCheckoutProvider
               stripe={stripePromise}
-              options={{ 
-                clientSecret,
-                appearance: {
-                  theme: 'stripe',
-                  variables: {
-                    colorPrimary: '#000000',
-                    colorBackground: '#ffffff',
-                    colorText: '#111827',
-                    colorDanger: '#ef4444',
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    borderRadius: '0px',
-                    spacingUnit: '4px',
-                  }
-                }
-              } as any}
+              options={{ clientSecret }}
             >
               <EmbeddedCheckout className="w-full" />
             </EmbeddedCheckoutProvider>
