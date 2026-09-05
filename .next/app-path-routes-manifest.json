@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/_global-error/page": "/_global-error",
+  "/api/checkout/route": "/api/checkout",
+  "/favicon.ico/route": "/favicon.ico",
+  "/about/page": "/about",
+  "/checkout/cancel/page": "/checkout/cancel",
+  "/checkout/page": "/checkout",
+  "/checkout/success/page": "/checkout/success",
+  "/faq/page": "/faq",
+  "/page": "/",
+  "/products/[slug]/page": "/products/[slug]",
+  "/products/page": "/products",
+  "/track-order/page": "/track-order"
+}
