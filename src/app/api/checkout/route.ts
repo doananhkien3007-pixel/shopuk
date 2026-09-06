@@ -96,6 +96,7 @@ export async function POST(req: Request) {
         ];
 
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card', 'afterpay_clearpay'],
       line_items: lineItems,
       mode: 'payment',
       ui_mode: 'embedded_page',
