@@ -1,171 +1,81 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard, { ProductItem } from './ProductCard';
+import { supabase } from '@/utils/supabase';
 
-const productsData: ProductItem[] = [
+// Dữ liệu dự phòng trong lúc tải hoặc lỗi mạng
+const fallbackData: ProductItem[] = [
   {
     id: 'sculpt-cream-polka-dot-set',
     title: 'Sculpt - Cream Polka Dot - Set',
     price: '$850',
     originalPrice: '$105',
     href: '/products/sculpt-cream-polka-dot-set',
-    images: [
-      '/products/polka-dot-cream-set.jpg',
-    ],
+    images: ['/products/polka-dot-cream-set.jpg'],
     rating: { score: 5.0, count: 12 },
     colors: [
       {
         name: 'Cream Polka Dot',
-        hex: '#EBE5D9', // A creamy off-white color
+        hex: '#EBE5D9',
         image: '/products/polka-dot-cream-set.jpg',
-        images: [
-          '/products/polka-dot-cream-set.jpg',
-        ],
+        images: ['/products/polka-dot-cream-set.jpg'],
       },
     ],
-  },
-  {
-    id: 'sculpt-black-den-bra',
-    title: 'Sculpt - Black (Đen) - Bra',
-    price: '$500',
-    originalPrice: '$620',
-    href: '/products/sculpt-black-den-bra',
-    images: [
-      '/products/sculpt-black-bra-1.jpg',
-      '/sites/eql/root/images/c8760525ce91eb4c.webp',
-      '/sites/eql/root/images/8c1b9c678b71a3d1.webp',
-      '/sites/eql/root/images/ff54dacc9e02a984.webp',
-    ],
-    rating: { score: 4.8, count: 4 },
-    colors: [
-      {
-        name: 'Azure',
-        hex: '#0A6080',
-        image: '/sites/eql/root/images/c8760525ce91eb4c.webp',
-        images: [
-          '/sites/eql/root/images/c8760525ce91eb4c.webp',
-          '/sites/eql/root/images/8c1b9c678b71a3d1.webp',
-        ],
-      },
-      {
-        name: 'Black',
-        hex: '#000000',
-        image: '/products/sculpt-black-bra-1.jpg',
-        images: [
-          '/products/sculpt-black-bra-1.jpg',
-          '/sites/eql/root/images/ff54dacc9e02a984.webp',
-          '/sites/eql/root/images/c83c6bf808a11dbd.webp',
-        ],
-      },
-    ],
-  },
-  {
-    id: 'sculpt-black-den-short-sleeve',
-    title: 'Sculpt - Black (Đen) - Áo Cộc Tay',
-    price: '$520',
-    href: '/products/sculpt-black-den-short-sleeve-ao-coc-tay',
-    images: [
-      '/sites/eql/root/images/6383dd9abb074ecf.webp',
-      '/sites/eql/root/images/355801d7be79ad8e.webp',
-      '/sites/eql/root/images/9570c4eb6919625c.webp',
-    ],
-    rating: { score: 5.0, count: 6 },
-    colors: [
-      {
-        name: 'Azure',
-        hex: '#0A6080',
-        image: '/sites/eql/root/images/355801d7be79ad8e.webp',
-        images: [
-          '/sites/eql/root/images/355801d7be79ad8e.webp',
-          '/sites/eql/root/images/9570c4eb6919625c.webp',
-        ],
-      },
-      {
-        name: 'Black',
-        hex: '#000000',
-        image: '/sites/eql/root/images/6383dd9abb074ecf.webp',
-        images: [
-          '/sites/eql/root/images/6383dd9abb074ecf.webp',
-          '/sites/eql/root/images/9570c4eb6919625c.webp',
-        ],
-      },
-    ],
-  },
-  {
-    id: 'sculpt-black-den-standard-leggings',
-    title: 'Sculpt - Black (Đen) - Standard Leggings Thường',
-    price: '$650',
-    href: '/products/sculpt-black-den-standard-leggings-thuong',
-    images: [
-      '/sites/eql/root/images/d8c11c9783d2c5c7.webp',
-      '/sites/eql/root/images/bc5edd8fe8843883.webp',
-      '/sites/eql/root/images/b70e81ec479bb2f8.webp',
-    ],
-    rating: { score: 4.9, count: 12 },
-    colors: [
-      {
-        name: 'Azure',
-        hex: '#0A6080',
-        image: '/sites/eql/root/images/bc5edd8fe8843883.webp',
-        images: [
-          '/sites/eql/root/images/bc5edd8fe8843883.webp',
-          '/sites/eql/root/images/b70e81ec479bb2f8.webp',
-        ],
-      },
-      {
-        name: 'Black',
-        hex: '#000000',
-        image: '/sites/eql/root/images/d8c11c9783d2c5c7.webp',
-        images: [
-          '/sites/eql/root/images/d8c11c9783d2c5c7.webp',
-          '/sites/eql/root/images/b70e81ec479bb2f8.webp',
-        ],
-      },
-    ],
-  },
-  {
-    id: 'sculpt-black-den-flare-leggings',
-    title: 'Sculpt - Black (Đen) - Flare Leggings Loe',
-    price: '$680',
-    href: '/products/sculpt-black-den-flare-leggings-loe',
-    images: [
-      '/sites/eql/root/images/0cdf224043bdaf7a.webp',
-      '/sites/eql/root/images/3eb8c67d6493465d.webp',
-      '/sites/eql/root/images/153d6d332e77e776.webp',
-    ],
-    rating: { score: 5.0, count: 8 },
-    colors: [
-      {
-        name: 'Azure',
-        hex: '#0A6080',
-        image: '/sites/eql/root/images/3eb8c67d6493465d.webp',
-        images: [
-          '/sites/eql/root/images/3eb8c67d6493465d.webp',
-          '/sites/eql/root/images/153d6d332e77e776.webp',
-        ],
-      },
-      {
-        name: 'Black',
-        hex: '#000000',
-        image: '/sites/eql/root/images/0cdf224043bdaf7a.webp',
-        images: [
-          '/sites/eql/root/images/0cdf224043bdaf7a.webp',
-          '/sites/eql/root/images/153d6d332e77e776.webp',
-        ],
-      },
-    ],
-  },
+  }
 ];
 
 export default function Collections() {
   const [activeTab, setActiveTab] = useState<'all' | 'new' | 'best'>('all');
+  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const tabs = [
     { key: 'all' as const, label: 'Tất cả sản phẩm' },
     { key: 'new' as const, label: 'Hàng mới về' },
     { key: 'best' as const, label: 'Bán chạy nhất' },
   ];
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .limit(8);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          // Map dữ liệu từ DB sang format UI cần
+          const formattedData: ProductItem[] = data.map((item: any) => ({
+            id: item.slug || String(item.id),
+            title: item.title,
+            // Format giá tiền (Ví dụ: 358800 -> $358)
+            price: `$${Math.round(item.price / 1000)}`,
+            originalPrice: item.compare_at_price ? `$${Math.round(item.compare_at_price / 1000)}` : undefined,
+            href: `/products/${item.slug}`,
+            images: [item.thumbnail_url || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300'],
+            rating: { 
+              score: parseFloat(item.avg_rating || '5.0'), 
+              count: item.review_count || 0 
+            },
+            colors: [], // Lấy default trống do DB hiện tại chưa có bảng colors detail
+          }));
+          setProducts(formattedData);
+        } else {
+          setProducts(fallbackData);
+        }
+      } catch (err) {
+        console.error("Lỗi khi tải Supabase:", err);
+        setProducts(fallbackData);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   return (
     <section className="mx-auto max-w-[1440px] px-3 sm:px-6 lg:px-8 py-6 lg:py-10">
@@ -192,11 +102,17 @@ export default function Collections() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-[8px] gap-y-6 sm:gap-x-4 lg:gap-x-5 lg:gap-y-8">
-        {productsData.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center py-20">
+           <div className="w-8 h-8 border-2 border-gray-200 border-t-black rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-[8px] gap-y-6 sm:gap-x-4 lg:gap-x-5 lg:gap-y-8">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
