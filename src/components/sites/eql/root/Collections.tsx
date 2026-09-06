@@ -51,9 +51,9 @@ export default function Collections() {
           const formattedData: ProductItem[] = data.map((item: any) => ({
             id: item.slug || String(item.id),
             title: item.title,
-            // Format giá tiền (Ví dụ: 358800 -> $358)
-            price: `$${Math.round(item.price / 1000)}`,
-            originalPrice: item.compare_at_price ? `$${Math.round(item.compare_at_price / 1000)}` : undefined,
+            // Format giá tiền (Ví dụ: 1490000 -> $149)
+            price: `$${Math.round(item.price / 10000)}`,
+            originalPrice: item.compare_at_price ? `$${Math.round(item.compare_at_price / 10000)}` : undefined,
             href: `/products/${item.slug}`,
             images: [item.thumbnail_url || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300'],
             rating: { 

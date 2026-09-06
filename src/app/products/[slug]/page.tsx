@@ -6,6 +6,7 @@ import Header from '@/components/sites/eql/root/Header';
 import Footer from '@/components/sites/eql/root/Footer';
 import ProductCard from '@/components/sites/eql/root/ProductCard';
 import { useCart } from '@/context/CartContext';
+import { supabase } from '@/utils/supabase';
 
 interface ProductDetailData {
   id: string;
@@ -181,8 +182,64 @@ export default function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = use(params);
-  const slug = resolvedParams?.slug || 'sculpt-black-den-bra';
-  const product = productDatabase[slug] || defaultProduct;
+  const slug = resolvedParams?.slug;
+  
+  const [product, setProduct] = useState<ProductDetailData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      if (!slug) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+          
+        if (error) throw error;
+        
+        if (data) {
+          const mappedProduct: ProductDetailData = {
+            id: String(data.id),
+            title: data.title,
+            price: '$' + Math.round(data.price / 10000),
+            originalPrice: data.compare_at_price ? '$' + Math.round(data.compare_at_price / 10000) : undefined,
+            rating: parseFloat(data.avg_rating || '5.0'),
+            reviewCount: data.review_count || 0,
+            sku: 'SKU-' + data.id,
+            colors: [
+              {
+                name: 'Default',
+                hex: '#000000',
+                images: [data.thumbnail_url || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800']
+              }
+            ],
+            sizes: ['XS', 'S', 'M', 'L'],
+            features: [
+              { title: 'Tối ưu Vận Động', desc: 'Thoải mái cả ngày dài', icon: 'fit' },
+              { title: 'Chất Liệu Cao Cấp', desc: 'Thấm hút cực tốt', icon: 'stretch' }
+            ],
+            description: [
+              data.description || data.short_desc || 'Sản phẩm thời trang cao cấp.'
+            ],
+            materialDetails: [
+              '78% Polyester, 22% Spandex',
+              'Giặt máy bằng nước lạnh',
+              'Không tẩy'
+            ]
+          };
+          setProduct(mappedProduct);
+        }
+      } catch (err) {
+        console.error("Lỗi fetch product:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [slug]);
 
   const [selectedColorIdx, setSelectedColorIdx] = useState(0);
   const [selectedSize, setSelectedSize] = useState('S');
@@ -199,6 +256,9 @@ export default function ProductDetailPage({
 
   const [isZooming, setIsZooming] = useState(false);
   const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
+  
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div></div>;
+  if (!product) return <div className="min-h-screen flex items-center justify-center"><h1>Không tìm thấy sản phẩm</h1></div>;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
