@@ -1,0 +1,58 @@
+<nav class="border-b border-[#e0e0e0]">
+  <div class="flex items-center justify-start sm:justify-center overflow-x-auto whitespace-nowrap scrollbar-hide px-4 gap-3 sm:gap-8">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.link | default: '#' }}" 
+         class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center"
+         {{ block.shopify_attributes }}>
+        {{ block.settings.title }}
+      </a>
+    {% else %}
+      <!-- Fallback if no blocks added -->
+      <a href="/collections/all?tag=new" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">MỚI VỀ</a>
+      <a href="/collections/all?activity=tennis" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">SÂN</a>
+      <a href="/collections/all?activity=yoga" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">STUDIO</a>
+      <a href="/collections/all?activity=lounge" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">LOUNGE</a>
+      <a href="/collections/all?tag=accessories" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">PHỤ KIỆN</a>
+      <a href="/collections/sale" class="text-[11px] uppercase tracking-[0.1em] font-normal text-black hover:opacity-60 transition-opacity shrink-0 py-3 px-2 sm:px-3 min-h-[40px] flex items-center">SALE</a>
+    {% endfor %}
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Category Nav",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Link Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Nav",
+      "blocks": [
+        { "type": "link", "settings": { "title": "MỚI VỀ" } },
+        { "type": "link", "settings": { "title": "SÂN" } },
+        { "type": "link", "settings": { "title": "STUDIO" } },
+        { "type": "link", "settings": { "title": "LOUNGE" } },
+        { "type": "link", "settings": { "title": "PHỤ KIỆN" } },
+        { "type": "link", "settings": { "title": "SALE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

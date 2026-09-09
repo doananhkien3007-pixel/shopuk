@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "category-nav": {
+      "type": "category-nav",
+      "settings": {}
+    },
+    "categories": {
+      "type": "categories",
+      "settings": {}
+    },
+    "shop_all_link": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<section class=\"mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 py-8 lg:py-12 text-center\">\n  <a href=\"/collections/all\" class=\"inline-flex items-center justify-center h-12 px-10 text-xs font-normal uppercase tracking-[0.15em] text-white bg-black hover:bg-[#2c2c2c] transition-colors\">\n    XEM TẤT CẢ SẢN PHẨM\n  </a>\n</section>"
+      }
+    },
+    "collections": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "kol_feed": {
+      "type": "kol-feed",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "category-nav",
+    "categories",
+    "shop_all_link",
+    "collections",
+    "kol_feed"
+  ]
+}

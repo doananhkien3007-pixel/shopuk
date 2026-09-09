@@ -1,0 +1,78 @@
+<section class="pt-4 pb-6 lg:py-8 lg:px-8 max-w-[1440px] mx-auto border-b border-[#e0e0e0]">
+  <div class="flex gap-4 sm:gap-6 lg:gap-12 justify-start sm:justify-center overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-0">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.link | default: '#' }}" 
+         class="group flex flex-col items-center shrink-0 w-[72px] sm:w-[90px] lg:w-[110px]"
+         {{ block.shopify_attributes }}>
+        
+        <div class="relative aspect-square w-full rounded-full overflow-hidden bg-[#f5f5f5] ring-1 ring-gray-200 group-hover:ring-gray-400 group-hover:shadow-sm transition-all duration-300">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 220 | image_tag: 
+              class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105', 
+              loading: 'lazy' 
+            }}
+          {% else %}
+            <!-- Fallback empty state -->
+            <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+          {% endif %}
+        </div>
+        <span class="text-[10px] sm:text-[11px] font-normal uppercase tracking-[0.1em] text-center mt-3 text-black group-hover:opacity-60 transition-opacity whitespace-nowrap">
+          {{ block.settings.title }}
+        </span>
+      </a>
+    {% else %}
+      <!-- Fallbacks if no blocks -->
+      <a href="#" class="group flex flex-col items-center shrink-0 w-[72px] sm:w-[90px] lg:w-[110px]">
+        <div class="relative aspect-square w-full rounded-full overflow-hidden bg-[#f5f5f5] ring-1 ring-gray-200 group-hover:ring-gray-400 group-hover:shadow-sm transition-all duration-300">
+           <img src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-collection-1_large.png" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-[10px] sm:text-[11px] font-normal uppercase tracking-[0.1em] text-center mt-3 text-black">Mẫu 1</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories Grid",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories Grid",
+      "blocks": [
+        { "type": "category", "settings": { "title": "COURT" } },
+        { "type": "category", "settings": { "title": "STUDIO" } },
+        { "type": "category", "settings": { "title": "TẬP LUYỆN" } },
+        { "type": "category", "settings": { "title": "LOUNGE" } },
+        { "type": "category", "settings": { "title": "CHẠY BỘ" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

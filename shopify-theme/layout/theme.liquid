@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-mask">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    <style>
+      :root {
+        --font-body-family: sans-serif;
+        --color-base-text: 0, 0, 0;
+        --color-base-background-1: 255, 255, 255;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-body-family);
+        background-color: rgb(var(--color-base-background-1));
+        color: rgb(var(--color-base-text));
+        -webkit-font-smoothing: antialiased;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+      /* Add Tailwind utilities mapping from source manually or load a base CSS */
+    </style>
+    
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+
+  <body class="min-h-screen flex flex-col font-sans template-{{ template.name }}">
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    
+    <main id="main-content" class="flex-1 overflow-x-clip" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+  </body>
+</html>
